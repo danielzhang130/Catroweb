@@ -40,6 +40,89 @@ class ExtractedCatrobatFileTest extends TestCase
     $this->assertSame('', $this->extracted_catrobat_file->getDescription());
   }
 
+  public function testGetsTheProgramTranslatedNameFromXml(): void
+  {
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$FIXTURES_DIR.'translation_xml/', '/webpath', 'hash');
+    $this->assertSame('简体中文', $this->extracted_catrobat_file->getName('zh-CN'));
+  }
+
+  public function testGetsTheProgramTranslatedDescriptionFromXml(): void
+  {
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$FIXTURES_DIR.'translation_xml/', '/webpath', 'hash');
+    $this->assertSame('français', $this->extracted_catrobat_file->getDescription('fr-FR'));
+  }
+
+  public function testGetsTheProgramTranslatedCreditFromXml(): void
+  {
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$FIXTURES_DIR.'translation_xml/', '/webpath', 'hash');
+    $this->assertSame('اَلْعَرَبِيَّةُ', $this->extracted_catrobat_file->getNotesAndCredits('ar-SA'));
+  }
+
+  public function testReturnsEmptyStringWhenTranslationLanguageNotAvailable(): void
+  {
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$FIXTURES_DIR.'translation_xml/', '/webpath', 'hash');
+    $this->assertSame('', $this->extracted_catrobat_file->getNotesAndCredits('es-MX'));
+  }
+
+  public function testReturnsEmptyStringWhenTranslationListNotPresent(): void
+  {
+    $this->assertSame('', $this->extracted_catrobat_file->getDescription('es-MX'));
+  }
+
+  public function testSetsTranslatedName(): void
+  {
+    $filesystem = new Filesystem();
+    $filesystem->mirror(RefreshTestEnvHook::$GENERATED_FIXTURES_DIR.'base/', RefreshTestEnvHook::$CACHE_DIR.'base/');
+
+    $name = 'test';
+    $language = 'fr-FR';
+
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$CACHE_DIR.'base/', '/webpath', 'hash');
+    $this->extracted_catrobat_file->setName($name, $language);
+    $this->extracted_catrobat_file->saveProgramXmlProperties();
+
+    $content = file_get_contents(RefreshTestEnvHook::$CACHE_DIR.'base/code.xml');
+    $xml = simplexml_load_string($content);
+    $this->assertSame($name, (string) $xml->header->translationsList->translation[0]->programName);
+    $this->assertSame($language, (string) $xml->header->translationsList->translation[0]->language);
+  }
+
+  public function testSetsTranslatedDescription(): void
+  {
+    $filesystem = new Filesystem();
+    $filesystem->mirror(RefreshTestEnvHook::$GENERATED_FIXTURES_DIR.'base/', RefreshTestEnvHook::$CACHE_DIR.'base/');
+
+    $description = 'test';
+    $language = 'fr-FR';
+
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$CACHE_DIR.'base/', '/webpath', 'hash');
+    $this->extracted_catrobat_file->setDescription($description, $language);
+    $this->extracted_catrobat_file->saveProgramXmlProperties();
+
+    $content = file_get_contents(RefreshTestEnvHook::$CACHE_DIR.'base/code.xml');
+    $xml = simplexml_load_string($content);
+    $this->assertSame($description, (string) $xml->header->translationsList->translation[0]->description);
+    $this->assertSame($language, (string) $xml->header->translationsList->translation[0]->language);
+  }
+
+  public function testSetsTranslatedCredits(): void
+  {
+    $filesystem = new Filesystem();
+    $filesystem->mirror(RefreshTestEnvHook::$GENERATED_FIXTURES_DIR.'base/', RefreshTestEnvHook::$CACHE_DIR.'base/');
+
+    $credits = 'test';
+    $language = 'fr-FR';
+
+    $this->extracted_catrobat_file = new ExtractedCatrobatFile(RefreshTestEnvHook::$CACHE_DIR.'base/', '/webpath', 'hash');
+    $this->extracted_catrobat_file->setNotesAndCredits($credits, $language);
+    $this->extracted_catrobat_file->saveProgramXmlProperties();
+
+    $content = file_get_contents(RefreshTestEnvHook::$CACHE_DIR.'base/code.xml');
+    $xml = simplexml_load_string($content);
+    $this->assertSame($credits, (string) $xml->header->translationsList->translation[0]->notesAndCredits);
+    $this->assertSame($language, (string) $xml->header->translationsList->translation[0]->language);
+  }
+
   public function testGetsTheLanguageVersionFromXml(): void
   {
     $this->assertSame('0.92', $this->extracted_catrobat_file->getLanguageVersion());

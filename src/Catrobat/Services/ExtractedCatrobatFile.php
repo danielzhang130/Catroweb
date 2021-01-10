@@ -52,9 +52,26 @@ class ExtractedCatrobatFile
     $this->program_xml_properties = $xml;
   }
 
-  public function getName(): string
+  public function getName(?string $language = null): string
   {
+    if ($language != null)
+    {
+      $translation = $this->findTranslation($language);
+      return $translation != null ? $translation->programName : '';
+    }
+
     return (string) $this->program_xml_properties->header->programName;
+  }
+
+  public function setName(string $name, ?string $language = null): void
+  {
+    if ($language == null)
+    {
+//      $this->program_xml_properties->header->programName = $name;
+      return;
+    }
+
+    $this->findOrAddTranslationIfNecessary($language)->programName = $name;
   }
 
   public function isDebugBuild(): bool
@@ -71,24 +88,48 @@ class ExtractedCatrobatFile
     return (string) $this->program_xml_properties->header->catrobatLanguageVersion;
   }
 
-  public function getDescription(): string
+  public function getDescription(?string $language = null): string
   {
-    return (string) $this->program_xml_properties->header->description;
+    if ($language == null)
+    {
+      return (string) $this->program_xml_properties->header->description;
+    }
+
+    $translation = $this->findTranslation($language);
+    return $translation != null ? $translation->description : '';
   }
 
-  public function setDescription(string $description): void
+  public function setDescription(string $description, ?string $language = null): void
   {
-    $this->program_xml_properties->header->description = $description;
+    if ($language == null)
+    {
+      $this->program_xml_properties->header->description = $description;
+      return;
+    }
+
+    $this->findOrAddTranslationIfNecessary($language)->description = $description;
   }
 
-  public function getNotesAndCredits(): string
+  public function getNotesAndCredits(?string $language = null): string
   {
+    if ($language != null)
+    {
+      $translation = $this->findTranslation($language);
+      return $translation != null ? $translation->notesAndCredits : '';
+    }
+
     return (string) $this->program_xml_properties->header->notesAndCredits;
   }
 
-  public function setNotesAndCredits(string $notesAndCredits): void
+  public function setNotesAndCredits(string $notesAndCredits, ?string $language = null): void
   {
-    $this->program_xml_properties->header->notesAndCredits = $notesAndCredits;
+    if ($language == null)
+    {
+      $this->program_xml_properties->header->notesAndCredits = $notesAndCredits;
+      return;
+    }
+
+    $this->findOrAddTranslationIfNecessary($language)->notesAndCredits = $notesAndCredits;
   }
 
   public function getDirHash(): ?string
@@ -398,6 +439,45 @@ class ExtractedCatrobatFile
     if (!file_exists($directory)) {
       mkdir($directory, 0777, true);
     }
+  }
+
+  private function findTranslation(string $language): ?SimpleXMLElement
+  {
+    $translationsList = $this->program_xml_properties->header->translationsList;
+
+    if (empty($translationsList))
+    {
+      return null;
+    }
+
+    foreach ($translationsList->translation as $translation)
+    {
+      if ($translation->language == $language)
+      {
+        return $translation;
+      }
+    }
+
+    return null;
+  }
+
+  private function addTranslation(string $language): SimpleXMLElement
+  {
+    $translationsList = $this->program_xml_properties->header->translationsList;
+
+    if (empty($translationsList))
+    {
+      $translationsList = $this->program_xml_properties->header->addChild('translationsList');
+    }
+
+    $translation = $translationsList->addChild('translation');
+    $translation->addChild('language', $language);
+    return $translation;
+  }
+
+  private function findOrAddTranslationIfNecessary(string $language): SimpleXMLElement
+  {
+    return $this->findTranslation($language) ?: $this->addTranslation($language);
   }
 
   private function decodeXmlEntities(string $input): string

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<program>
+  <header>
+    <applicationBuildName></applicationBuildName>
+    <applicationBuildNumber>0</applicationBuildNumber>
+    <applicationName>Pocket Code</applicationName>
+    <applicationVersion>0.9.7</applicationVersion>
+    <catrobatLanguageVersion>0.92</catrobatLanguageVersion>
+    <dateTimeUpload></dateTimeUpload>
+    <description>original description</description>
+    <deviceName>Nexus 5</deviceName>
+    <mediaLicense></mediaLicense>
+    <platform>Android</platform>
+    <platformVersion>19</platformVersion>
+    <programLicense></programLicense>
+    <programName>test</programName>
+    <remixOf></remixOf>
+    <screenHeight>1776</screenHeight>
+    <screenMode>STRETCH</screenMode>
+    <screenWidth>1080</screenWidth>
+    <tags></tags>
+    <url>やねうら部屋(びっくりハウス) remix お化け屋敷 [https://scratch.mit.edu/projects/117697631/], The Periodic Table [/app/project/3570]</url>
+    <userHandle></userHandle>
+    <translationsList>
+        <translation>
+            <language>zh-CN</language>
+            <programName>简体中文</programName>
+        </translation>
+        <translation>
+            <language>fr-FR</language>
+            <description>français</description>
+        </translation>
+        <translation>
+            <language>ar-SA</language>
+            <notesAndCredits>اَلْعَرَبِيَّةُ</notesAndCredits>
+        </translation>
+    </translationsList>
+  </header>
+  <objectList>
+  </objectList>
+  <variables>
+    <objectVariableList>
+    </objectVariableList>
+    <programVariableList/>
+  </variables>
+</program>
