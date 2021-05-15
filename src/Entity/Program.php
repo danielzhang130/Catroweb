@@ -345,6 +345,11 @@ class Program
   private bool $snapshots_enabled = false;
 
   /**
+   * @ORM\OneToMany(targetEntity="App\Entity\ProgramTranslation", mappedBy="program", cascade={"remove"})
+   */
+  private Collection $translations;
+
+  /**
    * Program constructor.
    */
   public function __construct()
@@ -364,6 +369,7 @@ class Program
     $this->likes = new ArrayCollection();
     $this->program_downloads = new ArrayCollection();
     $this->reports = new ArrayCollection();
+    $this->translations = new ArrayCollection();
   }
 
   public function __toString(): string
@@ -970,5 +976,10 @@ class Program
   public function isSnapshotsEnabled(): bool
   {
     return $this->snapshots_enabled;
+  }
+
+  public function getTranslation(): Collection
+  {
+    return $this->translations;
   }
 }

@@ -15,11 +15,13 @@ use App\Entity\Program;
 use App\Entity\ProgramInappropriateReport;
 use App\Entity\ProgramLike;
 use App\Entity\ProgramManager;
+use App\Entity\ProgramTranslation;
 use App\Entity\RemixManager;
 use App\Entity\User;
 use App\Entity\UserComment;
 use App\Repository\CatroNotificationRepository;
 use App\Translation\TranslationDelegate;
+use App\Repository\ProgramTranslationRepository;
 use App\Utils\ElapsedTimeStringFormatter;
 use App\WebView\Twig\AppExtension;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -58,6 +60,7 @@ class ProgramController extends AbstractController
   private EventDispatcherInterface $event_dispatcher;
   private ProgramFileRepository $file_repository;
   private TranslationDelegate $translation_delegate;
+  private ProgramTranslationRepository $translation_repository;
 
   public function __construct(StatisticsService $statistics_service,
                               RemixManager $remix_manager,
@@ -435,6 +438,48 @@ class ProgramController extends AbstractController
     }
 
     return JsonResponse::create(['statusCode' => Response::HTTP_OK]);
+  }
+
+ /**
+   * @Route("/editProjectName/{id}/{language}/{new_name}", name="edit_program_name", options={"expose": true}, methods={"GET"})
+   *
+   * @throws Exception
+   */
+  public function editProgramName(string $id, string $language, string $new_name): Response
+  {
+    $program = $this->program_manager->find($id);
+    if (null === $program)
+    {
+      throw $this->createNotFoundException('Unable to find Project entity.');
+    }
+
+    $this->translation_repository->addNameTranslation($program, $language, $new_name);
+
+    $extracted_file = $this->extracted_file_repository->loadProgramExtractedFile($program);
+    if ($extracted_file)
+    {
+      $extracted_file->setName($new_name, $language);
+      $this->extracted_file_repository->saveProgramExtractedFile($extracted_file);
+      $this->file_repository->deleteProgramFileIfExists($program->getId());
+    }
+
+    return JsonResponse::create(['statusCode' => Response::HTTP_OK]);
+  }
+
+ /**
+   * @Route("/getProjectName/{id}/{language}", name="get_program_name", options={"expose": true}, methods={"GET"})
+   *
+   * @throws Exception
+   */
+  public function getProgramName(string $id, string $language): Response
+  {
+    $program = $this->program_manager->find($id);
+    if (null === $program)
+    {
+      throw $this->createNotFoundException('Unable to find Project entity.');
+    }
+
+    return JsonResponse::create(['name' => $this->translation_repository->getNameTranslation($program, $language)]);
   }
 
   /**
