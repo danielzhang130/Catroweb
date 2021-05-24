@@ -8,8 +8,11 @@ use App\Entity\CommentNotification;
 use App\Entity\ProgramManager;
 use App\Entity\User;
 use App\Entity\UserComment;
+use App\Translation\TranslationDelegate;
 use Exception;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -110,5 +113,39 @@ class CommentsController extends AbstractController
     }
 
     return new Response(Response::HTTP_OK);
+  }
+
+  /**
+   * @Route("/translateComment", name="translate_comment", methods={"GET"})
+   */
+  public function translateCommentAction(TranslationDelegate $translationDelegate): Response
+  {
+    $em = $this->getDoctrine()->getManager();
+    $comment = $em->getRepository(UserComment::class)->find($_GET['CommentId']);
+
+    if (null === $comment) {
+      return new Response('No comment found for this id '.$_GET['CommentId'], Response::HTTP_BAD_REQUEST);
+    }
+
+    $source_language = $_GET['SourceLanguage'] ?? null;
+    $target_language = $_GET['TargetLanguage'];
+
+    if ($source_language === $target_language) {
+      return new Response('source and target languages are the same', Response::HTTP_BAD_REQUEST);
+    }
+
+    try {
+      $translation_result = $translationDelegate->translate($comment->getText(), $source_language, $target_language);
+    } catch (InvalidArgumentException $exception) {
+      return new Response($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+    }
+
+    return new JsonResponse([
+      'id' => $_GET['CommentId'],
+      'source_language' => $source_language ?? $translation_result->detected_source_language,
+      'target_language' => $target_language,
+      'translation' => $translation_result->translation,
+      'provider' => $translation_result->provider,
+    ]);
   }
 }
