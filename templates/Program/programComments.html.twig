@@ -51,10 +51,17 @@
             <div class="date">
               {{ comment.uploadDate.format('Y-m-d') }}
             </div>
-            <a id="comment-translate-button-{{ comment.id }}" class="comment-translate-button">
+            <a id="comment-translation-button-{{ comment.id }}" class="comment-translation-button catro-icon-button"
+                data-toggle="tooltip" title="Show Translation">
               <i class="ml-3 material-icons">
                 translate
               </i>
+            </a>
+            <a id="remove-comment-translation-button-{{ comment.id }}" class="remove-comment-translation-button catro-icon-button" style="display: none"
+                data-toggle="tooltip" title="Hide Translation">
+                <i class="ml-3 material-icons" data-toggle="tooltip" title="Hide Translation">
+                  close
+                </i>
             </a>
             {% if not(app.user) or (app.user and comment.username != app.user.username) %}
               {#  Everybody, but the comment owner must be able to report a comment  #}
@@ -71,8 +78,12 @@
               </a>
             {% endif %}
           </div>
-          <div class="comment-text">
+          <div id="comment-text-wrapper-{{ comment.id }}" class="comment-text">
             <p id="comment-text-{{ comment.id }}">{{ comment.text }}</p>
+          </div>
+          <div id="comment-translation-wrapper-{{ comment.id }}" class="comment-translation-wrapper" style="display: none">
+            <p id="comment-translation-credit-{{ comment.id }}" class="comment-translation-credit">Translation Credit</p>
+            <p id="comment-text-translation-{{ comment.id }}" class="comment-text-translation">Error, comment not translated</p>
           </div>
         </div>
       </div>
