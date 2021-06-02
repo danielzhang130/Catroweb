@@ -2,8 +2,8 @@
 
 // eslint-disable-next-line no-unused-vars
 function Translation (hasDescription, hasCredit) {
-  var languageMap = {}
-  var targetLanguage = document.documentElement.lang
+  let languageMap = {}
+  let targetLanguage = document.documentElement.lang
 
   $(document).ready(function () {
     $.ajax({
@@ -15,7 +15,7 @@ function Translation (hasDescription, hasCredit) {
     })
   })
 
-  $('.mdc-list-item__text').each(function() {
+  $('.mdc-list-item__text').each(function () {
     if ($(this).parent()[0].hasAttribute('selected')) {
       targetLanguage = fixLanguageCode($(this).parent().attr('data-value'))
     }
@@ -26,7 +26,7 @@ function Translation (hasDescription, hasCredit) {
 
     $(this).hide()
 
-    if ($('#comment-text-translation-' + commentId).attr('lang') != targetLanguage) {
+    if ($('#comment-text-translation-' + commentId).attr('lang') !== targetLanguage) {
       $('#comment-translation-loading-spinner-' + commentId).show()
       translateComment(commentId)
     } else {
@@ -42,7 +42,7 @@ function Translation (hasDescription, hasCredit) {
     $('#comment-text-wrapper-' + commentId).slideDown()
   })
 
-  function fixLanguageCode(languageCode) {
+  function fixLanguageCode (languageCode) {
     if (languageCode.length > 2) {
       languageCode = languageCode.split('')
       languageCode[2] = '-'
@@ -52,26 +52,26 @@ function Translation (hasDescription, hasCredit) {
     return languageCode
   }
 
-  function getTranslationProvider(provider) {
-    if (provider == "itranslate") {
-      return "iTranslate "
+  function getTranslationProvider (provider) {
+    if (provider === 'itranslate') {
+      return 'iTranslate'
     }
-    return ""
+    return ''
   }
 
-  function openGoogleTranslatePage(commentId) {
-    var text = document.getElementById('comment-text-' + commentId).innerText
+  function openGoogleTranslatePage (commentId) {
+    const text = document.getElementById('comment-text-' + commentId).innerText
     window.open(
       'https://translate.google.com/?q=' + encodeURIComponent(text) + '&sl=auto&tl=' + targetLanguage,
       '_self'
-    );
+    )
   }
 
-  function setTranslatedCommentData(commentId, data) {
+  function setTranslatedCommentData (commentId, data) {
     $('#comment-text-translation-' + commentId).text(data.translation)
     $('#comment-text-translation-' + commentId).attr('lang', data.target_language)
 
-    var provider = $('#comment-translation-provider-' + commentId)
+    const provider = $('#comment-translation-provider-' + commentId)
       .text()
       .replace('%provider%', getTranslationProvider(data.provider))
     $('#comment-translation-provider-' + commentId).text(provider)
@@ -79,20 +79,20 @@ function Translation (hasDescription, hasCredit) {
     $('#comment-translation-target-language-' + commentId).text(languageMap[data.target_language])
   }
 
-  function openTranslatedComment(commentId) {
+  function openTranslatedComment (commentId) {
     $('#comment-translation-loading-spinner-' + commentId).hide()
     $('#remove-comment-translation-button-' + commentId).show()
     $('#comment-translation-wrapper-' + commentId).slideDown()
     $('#comment-text-wrapper-' + commentId).slideUp()
   }
 
-  function commentNotTranslated(commentId) {
+  function commentNotTranslated (commentId) {
     $('#comment-translation-loading-spinner-' + commentId).hide()
     $('#comment-translation-button-' + commentId).show()
     openGoogleTranslatePage(commentId)
   }
 
-  function translateComment(commentId) {
+  function translateComment (commentId) {
     $.ajax({
       url: '../translate/comment/' + commentId,
       type: 'get',
