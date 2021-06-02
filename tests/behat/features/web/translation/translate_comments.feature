@@ -18,7 +18,7 @@ Feature: Project title, description and credits should be translatable via a but
     And I wait for the page to be loaded
     Then the element "#comment-translation-button-1" should exist
     When I click "#comment-translation-button-1"
-    Then the element "#comment-translation-loading-spinner-1" should be visible
+    And the element "#comment-translation-loading-spinner-1" should be visible
     And I wait for AJAX to finish
     Then the element "#remove-comment-translation-button-1" should be visible
     And the element "#comment-translation-wrapper-1" should be visible
@@ -31,7 +31,7 @@ Feature: Project title, description and credits should be translatable via a but
     And I wait for the page to be loaded
     Then the element "#comment-translation-button-2" should exist
     When I click "#comment-translation-button-2"
-    Then the element "#comment-translation-loading-spinner-2" should be visible
+    And the element "#comment-translation-loading-spinner-2" should be visible
     And I wait for AJAX to finish
     Then the element "#remove-comment-translation-button-2" should be visible
     And the element "#comment-translation-wrapper-2" should be visible
