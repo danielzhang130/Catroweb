@@ -20,8 +20,7 @@ Feature: Project title, description and credits should be translatable via a but
     When I click "#comment-translation-button-1"
     And the element "#comment-translation-loading-spinner-1" should be visible
     And I wait for AJAX to finish
-    Then I wait for the element "#remove-comment-translation-button-1" to be visible
-    And the element "#comment-translation-wrapper-1" should be visible
+    Then the element "#comment-translation-wrapper-1" should be visible
     When I click "#remove-comment-translation-button-1"
     Then the element "#comment-translation-button-1" should be visible
     And the element "#comment-text-wrapper-1" should be visible
@@ -33,8 +32,7 @@ Feature: Project title, description and credits should be translatable via a but
     When I click "#comment-translation-button-2"
     And the element "#comment-translation-loading-spinner-2" should be visible
     And I wait for AJAX to finish
-    Then I wait for the element "#remove-comment-translation-button-2" to be visible
-    And the element "#comment-translation-wrapper-2" should be visible
+    Then the element "#comment-translation-wrapper-2" should be visible
     When I click "#remove-comment-translation-button-2"
     Then the element "#comment-translation-button-2" should be visible
     And the element "#comment-text-wrapper-2" should be visible
