@@ -258,6 +258,10 @@ table td:nth-child(1) {
   @include force-word-break();
 }
 
+.comment-translation-loading-spinner {
+  padding-left: 1em;
+}
+
 .comment-translation-wrapper {
   display: block;
   padding-top: 0.4em;
@@ -266,9 +270,7 @@ table td:nth-child(1) {
 }
 
 .comment-translation-credit {
-  display: block;
   font-size: small;
-  margin-bottom: 0.2rem;
   color: grey;
 }
 

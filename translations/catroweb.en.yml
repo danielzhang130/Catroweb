@@ -184,6 +184,8 @@ programs:
   link: Copy project link to clipboard
   reactionsText: Reactions
   downloadErrorText: Error occurred while downloading the project. Please try again later.
+  provider: Translated by %provider% from
+  creditTransition: to
 
 remixGraph:
   title: Remixes
