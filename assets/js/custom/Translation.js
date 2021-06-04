@@ -67,11 +67,7 @@ function Translation (hasDescription, hasCredit, translatedByText) {
 
   function setSourceAndTargetLanguage (commentId, firstLang, secondLang, firstLangMapped, secondLangMapped) {
     const transition = translatedByText.substring(translatedByText.indexOf(firstLang) + firstLang.length, translatedByText.indexOf(secondLang))
-    console.log(translatedByText)
-    console.log(firstLang)
-    console.log(translatedByText.indexOf(firstLang) + firstLang.length)
-    console.log(secondLang)
-    console.log(translatedByText.indexOf(secondLang))
+
     $('#comment-translation-credit-transition-' + commentId).text(transition)
     $('#comment-translation-first-language-' + commentId).text(firstLangMapped)
     $('#comment-translation-second-language-' + commentId).text(secondLangMapped)
