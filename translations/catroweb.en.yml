@@ -186,7 +186,7 @@ programs:
   downloadErrorText: Error occurred while downloading the project. Please try again later.
   showTranslation: Show Translation
   hideTranslation: Hide Translation
-  provider: Translated by %provider% from %sourceLanguage% to %targetLanguage%
+  translatedByText: Translated by %provider% from %sourceLanguage% to %targetLanguage%
 
 remixGraph:
   title: Remixes

@@ -1,19 +1,16 @@
 /* eslint-env jquery */
-/* global Routing */
 
 // eslint-disable-next-line no-unused-vars
-function Translation (hasDescription, hasCredit) {
+function Translation (hasDescription, hasCredit, translatedByText) {
   const providerMap = {
     itranslate: 'iTranslate'
   }
   let languageMap = {}
   let targetLanguage = document.documentElement.lang
-  let creditText = 'Translated by %provider% from %sourceLanguage% to %targetLanguage%'
 
   $(document).ready(function () {
     setTargetLanguage()
     getLanguageMap()
-    getTranslationCreditText()
   })
 
   $(document).on('click', '.comment-translation-button', function () {
@@ -21,7 +18,7 @@ function Translation (hasDescription, hasCredit) {
 
     $(this).hide()
 
-    if (isTranslationAvailable(commentId)) {
+    if (isTranslationNotAvailable(commentId)) {
       $('#comment-translation-loading-spinner-' + commentId).show()
       translateComment(commentId)
     } else {
@@ -44,7 +41,6 @@ function Translation (hasDescription, hasCredit) {
         targetLanguage = decodedCookie[i].substring(decodedCookie[i].indexOf('=') + 1).replace('_', '-')
       }
     }
-    console.log(targetLanguage)
   }
 
   function getLanguageMap () {
@@ -57,17 +53,7 @@ function Translation (hasDescription, hasCredit) {
     })
   }
 
-  function getTranslationCreditText () {
-    const url = Routing.generate('translate', {
-      word: 'programs.provider',
-      domain: 'catroweb'
-    })
-    $.get(url, function (data) {
-      creditText = data
-    })
-  }
-
-  function isTranslationAvailable (commentId) {
+  function isTranslationNotAvailable (commentId) {
     return $('#comment-text-translation-' + commentId).attr('lang') !== targetLanguage
   }
 
@@ -80,8 +66,12 @@ function Translation (hasDescription, hasCredit) {
   }
 
   function setSourceAndTargetLanguage (commentId, firstLang, secondLang, firstLangMapped, secondLangMapped) {
-    const transition = creditText.substring(creditText.indexOf(firstLang) + firstLang.length, creditText.indexOf(secondLang))
-    
+    const transition = translatedByText.substring(translatedByText.indexOf(firstLang) + firstLang.length, translatedByText.indexOf(secondLang))
+    console.log(translatedByText)
+    console.log(firstLang)
+    console.log(translatedByText.indexOf(firstLang) + firstLang.length)
+    console.log(secondLang)
+    console.log(translatedByText.indexOf(secondLang))
     $('#comment-translation-credit-transition-' + commentId).text(transition)
     $('#comment-translation-first-language-' + commentId).text(firstLangMapped)
     $('#comment-translation-second-language-' + commentId).text(secondLangMapped)
@@ -91,14 +81,14 @@ function Translation (hasDescription, hasCredit) {
     $('#comment-text-translation-' + commentId).text(data.translation)
     $('#comment-text-translation-' + commentId).attr('lang', data.target_language)
 
-    let provider = creditText.replace('%provider%', providerMap[data.provider])
+    let provider = translatedByText.replace('%provider%', providerMap[data.provider])
     provider = provider.substring(0, provider.indexOf('%'))
     $('#comment-translation-provider-' + commentId).text(provider)
 
-    if (creditText.indexOf('%sourceLangauge%') < creditText.indexOf('%targetLanguage%')) {
-      setSourceAndTargetLanguage(commentId, '%sourceLangauge%', '%targetLanguage%', languageMap[data.source_language], languageMap[data.target_language])
+    if (translatedByText.indexOf('%sourceLanguage%') < translatedByText.indexOf('%targetLanguage%')) {
+      setSourceAndTargetLanguage(commentId, '%sourceLanguage%', '%targetLanguage%', languageMap[data.source_language], languageMap[data.target_language])
     } else {
-      setSourceAndTargetLanguage(commentId, '%targetLanguage%', '%sourceLangauge%', languageMap[data.target_language], languageMap[data.source_language])
+      setSourceAndTargetLanguage(commentId, '%targetLanguage%', '%sourceLanguage%', languageMap[data.target_language], languageMap[data.source_language])
     }
   }
 
