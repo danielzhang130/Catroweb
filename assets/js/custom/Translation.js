@@ -1,9 +1,10 @@
 /* eslint-env jquery */
+/* global Routing */
 
 // eslint-disable-next-line no-unused-vars
 function Translation (hasDescription, hasCredit) {
   const providerMap = {
-    'itranslate': 'iTranslate'
+    itranslate: 'iTranslate'
   }
   let languageMap = {}
   let targetLanguage = document.documentElement.lang
@@ -39,8 +40,8 @@ function Translation (hasDescription, hasCredit) {
   function setTargetLanguage () {
     const decodedCookie = decodeURIComponent(document.cookie).split(';')
     for (let i = 0; i < decodedCookie.length; i++) {
-      if (decodedCookie[i].includes("hl=") && decodedCookie[i].length < 10) {
-        targetLanguage = decodedCookie[i].substring(decodedCookie[i].indexOf("=") + 1).replace('_', '-')
+      if (decodedCookie[i].includes('hl=') && decodedCookie[i].length < 10) {
+        targetLanguage = decodedCookie[i].substring(decodedCookie[i].indexOf('=') + 1).replace('_', '-')
       }
     }
     console.log(targetLanguage)
@@ -56,7 +57,7 @@ function Translation (hasDescription, hasCredit) {
     })
   }
 
-  function getTranslationCreditText() {
+  function getTranslationCreditText () {
     const url = Routing.generate('translate', {
       word: 'programs.provider',
       domain: 'catroweb'
@@ -79,11 +80,7 @@ function Translation (hasDescription, hasCredit) {
   }
 
   function setSourceAndTargetLanguage (commentId, firstLang, secondLang, firstLangMapped, secondLangMapped) {
-    const transition = creditText
-        .substring(
-          creditText.indexOf(firstLang) + firstLang.length, 
-          creditText.indexOf(secondLang)
-        )
+    const transition = creditText.substring(creditText.indexOf(firstLang) + firstLang.length, creditText.indexOf(secondLang))
     
     $('#comment-translation-credit-transition-' + commentId).text(transition)
     $('#comment-translation-first-language-' + commentId).text(firstLangMapped)
