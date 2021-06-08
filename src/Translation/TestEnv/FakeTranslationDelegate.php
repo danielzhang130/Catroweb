@@ -2,9 +2,9 @@
 
 namespace App\Translation\TestEnv;
 
-use InvalidArgumentException;
 use App\Translation\TranslationDelegate;
 use App\Translation\TranslationResult;
+use InvalidArgumentException;
 
 class FakeTranslationDelegate extends TranslationDelegate
 {
