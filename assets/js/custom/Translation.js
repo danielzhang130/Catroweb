@@ -5,13 +5,13 @@ function Translation (translatedByLine) {
   const providerMap = {
     itranslate: 'iTranslate'
   }
-  let languageMap = {}
+  let displayLanguageMap = {}
   let translatedByLineMap = {}
   let targetLanguage = null
 
   $(document).ready(function () {
     setTargetLanguage()
-    getLanguageMap()
+    getDisplayLanguageMap()
     splitTranslatedByLine()
   })
 
@@ -37,21 +37,27 @@ function Translation (translatedByLine) {
   })
 
   function setTargetLanguage () {
-    targetLanguage = document.documentElement.lang
-    const decodedCookie = decodeURIComponent(document.cookie).split(';')
-    for (let i = 0; i < decodedCookie.length; i++) {
-      if (decodedCookie[i].includes('hl=') && decodedCookie[i].length < 10) {
-        targetLanguage = decodedCookie[i].substring(decodedCookie[i].indexOf('=') + 1).replace('_', '-')
-      }
+    const decodedCookie = document.cookie
+      .split(';')
+      .map(v => v.split('='))
+      .reduce((acc, v) => {
+        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim())
+        return acc
+      }, {})
+    
+    if (decodedCookie.hl !== undefined) {
+      targetLanguage = decodedCookie.hl.replace('_', '-')
+    } else {
+      targetLanguage = document.documentElement.lang
     }
   }
 
-  function getLanguageMap () {
+  function getDisplayLanguageMap () {
     $.ajax({
       url: '../languages',
       type: 'get',
       success: function (data) {
-        languageMap = data
+        displayLanguageMap = data
       }
     })
   }
@@ -96,11 +102,11 @@ function Translation (translatedByLine) {
     $('#comment-translation-after-languages-' + commentId).text(translatedByLineMap.after.replace('%provider%', providerMap[data.provider]))
 
     if (isSourceLanguageFirst()) {
-      $('#comment-translation-first-language-' + commentId).text(languageMap[data.source_language])
-      $('#comment-translation-second-language-' + commentId).text(languageMap[data.target_language])
+      $('#comment-translation-first-language-' + commentId).text(displayLanguageMap[data.source_language])
+      $('#comment-translation-second-language-' + commentId).text(displayLanguageMap[data.target_language])
     } else {
-      $('#comment-translation-first-language-' + commentId).text(languageMap[data.target_language])
-      $('#comment-translation-second-language-' + commentId).text(languageMap[data.source_language])
+      $('#comment-translation-first-language-' + commentId).text(displayLanguageMap[data.target_language])
+      $('#comment-translation-second-language-' + commentId).text(displayLanguageMap[data.source_language])
     }
   }
 

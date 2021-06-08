@@ -34,7 +34,7 @@ class TranslationDelegate
     return null;
   }
 
-  protected function validateLanguage(?string $language): void
+  private function validateLanguage(?string $language): void
   {
     if (2 == strlen($language)) {
       if (strtolower($language) != $language) {

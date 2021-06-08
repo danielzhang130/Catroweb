@@ -13,9 +13,6 @@ class FakeTranslationDelegate extends TranslationDelegate
    */
   public function translate(string $text, ?string $source_language, string $target_language): ?TranslationResult
   {
-    $this->validateLanguage($source_language);
-    $this->validateLanguage($target_language);
-
     $translation_result = new TranslationResult();
     $translation_result->provider = 'itranslate';
     if (null == $source_language) {
