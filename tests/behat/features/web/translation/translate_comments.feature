@@ -57,11 +57,4 @@ Feature: Project title, description and credits should be translatable via a but
     And the "#comment-translation-between-languages-1" element should contain "to"
     And the "#comment-translation-second-language-1" element should contain "English"
     And the "#comment-translation-after-languages-1" element should contain ""
-
-  Scenario: Loading spinner should be visible when comment is being translated
-    Given I am on "/app/project/1"
-    And I wait for the page to be loaded
-    Then the element "#comment-translation-button-1" should exist
-    When I click "#comment-translation-button-1"
-    And the element "#comment-translation-loading-spinner-1" should be visible
     
