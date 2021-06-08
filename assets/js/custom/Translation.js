@@ -44,7 +44,7 @@ function Translation (translatedByLine) {
         acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim())
         return acc
       }, {})
-    
+
     if (decodedCookie.hl !== undefined) {
       targetLanguage = decodedCookie.hl.replace('_', '-')
     } else {
