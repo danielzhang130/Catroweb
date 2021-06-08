@@ -1,16 +1,18 @@
 /* eslint-env jquery */
 
 // eslint-disable-next-line no-unused-vars
-function Translation (hasDescription, hasCredit, translatedByText) {
+function Translation (translatedByLine) {
   const providerMap = {
     itranslate: 'iTranslate'
   }
   let languageMap = {}
-  let targetLanguage = document.documentElement.lang
+  let translatedByLineMap = {}
+  let targetLanguage = null
 
   $(document).ready(function () {
     setTargetLanguage()
     getLanguageMap()
+    splitTranslatedByLine()
   })
 
   $(document).on('click', '.comment-translation-button', function () {
@@ -35,6 +37,7 @@ function Translation (hasDescription, hasCredit, translatedByText) {
   })
 
   function setTargetLanguage () {
+    targetLanguage = document.documentElement.lang
     const decodedCookie = decodeURIComponent(document.cookie).split(';')
     for (let i = 0; i < decodedCookie.length; i++) {
       if (decodedCookie[i].includes('hl=') && decodedCookie[i].length < 10) {
@@ -53,8 +56,27 @@ function Translation (hasDescription, hasCredit, translatedByText) {
     })
   }
 
+  function splitTranslatedByLine () {
+    let firstLanguage = '%sourceLanguage%'
+    let secondLanguage = '%targetLanguage%'
+    if (!isSourceLanguageFirst()) {
+      firstLanguage = '%targetLanguage%'
+      secondLanguage = '%sourceLanguage%'
+    }
+
+    translatedByLineMap = {
+      before: translatedByLine.substring(0, translatedByLine.indexOf(firstLanguage)),
+      between: translatedByLine.substring(translatedByLine.indexOf(firstLanguage) + firstLanguage.length, translatedByLine.indexOf(secondLanguage)),
+      after: translatedByLine.substring(translatedByLine.indexOf(secondLanguage) + secondLanguage.length)
+    }
+  }
+
   function isTranslationNotAvailable (commentId) {
     return $('#comment-text-translation-' + commentId).attr('lang') !== targetLanguage
+  }
+
+  function isSourceLanguageFirst () {
+    return translatedByLine.indexOf('%sourceLanguage%') < translatedByLine.indexOf('%targetLanguage%')
   }
 
   function openGoogleTranslatePage (commentId) {
@@ -65,26 +87,20 @@ function Translation (hasDescription, hasCredit, translatedByText) {
     )
   }
 
-  function setSourceAndTargetLanguage (commentId, firstLang, secondLang, firstLangMapped, secondLangMapped) {
-    const transition = translatedByText.substring(translatedByText.indexOf(firstLang) + firstLang.length, translatedByText.indexOf(secondLang))
-
-    $('#comment-translation-credit-transition-' + commentId).text(transition)
-    $('#comment-translation-first-language-' + commentId).text(firstLangMapped)
-    $('#comment-translation-second-language-' + commentId).text(secondLangMapped)
-  }
-
   function setTranslatedCommentData (commentId, data) {
     $('#comment-text-translation-' + commentId).text(data.translation)
     $('#comment-text-translation-' + commentId).attr('lang', data.target_language)
 
-    let provider = translatedByText.replace('%provider%', providerMap[data.provider])
-    provider = provider.substring(0, provider.indexOf('%'))
-    $('#comment-translation-provider-' + commentId).text(provider)
+    $('#comment-translation-before-languages-' + commentId).text(translatedByLineMap.before.replace('%provider%', providerMap[data.provider]))
+    $('#comment-translation-between-languages-' + commentId).text(translatedByLineMap.between.replace('%provider%', providerMap[data.provider]))
+    $('#comment-translation-after-languages-' + commentId).text(translatedByLineMap.after.replace('%provider%', providerMap[data.provider]))
 
-    if (translatedByText.indexOf('%sourceLanguage%') < translatedByText.indexOf('%targetLanguage%')) {
-      setSourceAndTargetLanguage(commentId, '%sourceLanguage%', '%targetLanguage%', languageMap[data.source_language], languageMap[data.target_language])
+    if (isSourceLanguageFirst()) {
+      $('#comment-translation-first-language-' + commentId).text(languageMap[data.source_language])
+      $('#comment-translation-second-language-' + commentId).text(languageMap[data.target_language])
     } else {
-      setSourceAndTargetLanguage(commentId, '%targetLanguage%', '%sourceLanguage%', languageMap[data.target_language], languageMap[data.source_language])
+      $('#comment-translation-first-language-' + commentId).text(languageMap[data.target_language])
+      $('#comment-translation-second-language-' + commentId).text(languageMap[data.source_language])
     }
   }
 
@@ -114,36 +130,5 @@ function Translation (hasDescription, hasCredit, translatedByText) {
         commentNotTranslated(commentId)
       }
     })
-  }
-
-  const elementsToTranslate = [document.getElementById('name')]
-
-  if (hasDescription) {
-    elementsToTranslate.push(document.getElementById('description'))
-  }
-  if (hasCredit) {
-    elementsToTranslate.push(document.getElementById('credits'))
-  }
-
-  translateWithLink(
-    document.getElementById('translate-program'),
-    elementsToTranslate,
-    document.documentElement.lang
-  )
-
-  function translateWithLink (buttonElement, textElements, targetLang) {
-    let text = ''
-    if (Array.isArray(textElements)) {
-      const array = []
-      for (let i = 0; i < textElements.length; i++) {
-        array.push(textElements[i].innerText)
-      }
-
-      text = array.join('\n\n')
-    } else {
-      text = textElements.innerText
-    }
-
-    buttonElement.setAttribute('href', 'https://translate.google.com/?q=' + encodeURIComponent(text) + '&sl=auto&tl=' + targetLang)
   }
 }
