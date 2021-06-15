@@ -470,7 +470,8 @@ class ProgramController extends AbstractController
    *
    * @throws \Doctrine\ORM\NoResultException
    */
-  public function translateProjectAction(Request $request, string $id) {
+  public function translateProjectAction(Request $request, string $id): Response
+  {
     if (!$request->query->has('target_language')) {
       return new Response('Target language is required', Response::HTTP_BAD_REQUEST);
     }

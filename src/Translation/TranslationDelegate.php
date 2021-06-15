@@ -52,6 +52,7 @@ class TranslationDelegate
   {
     $this->validateLanguage($source_language);
     $this->validateLanguage($target_language);
+
     return $this->internalTranslate($text, $source_language, $target_language);
   }
 

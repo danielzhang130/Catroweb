@@ -87,7 +87,8 @@ class TranslationDelegateTest extends TestCase
     $translation_delegate->translate('test', $invalid_code, $invalid_code);
   }
 
-  public function testTranslateProjectWithOnlyTitle() {
+  public function testTranslateProjectWithOnlyName(): void
+  {
     $api = $this->createMock(TranslationApiInterface::class);
     $translation_result = new TranslationResult();
     $api->expects($this->once())
@@ -105,7 +106,8 @@ class TranslationDelegateTest extends TestCase
     $this->assertEquals([$translation_result, null, null], $actual_result);
   }
 
-  public function testTranslateProjectWithDescriptionAndCredit() {
+  public function testTranslateProjectWithDescriptionAndCredit(): void
+  {
     $api = $this->createMock(TranslationApiInterface::class);
     $translation_result = new TranslationResult();
     $api->expects($this->atLeastOnce())
@@ -125,7 +127,8 @@ class TranslationDelegateTest extends TestCase
     $this->assertEquals([$translation_result, $translation_result, $translation_result], $actual_result);
   }
 
-  public function testTranslateProjectFailure() {
+  public function testTranslateProjectFailure(): void
+  {
     $api = $this->createMock(TranslationApiInterface::class);
     $api->expects($this->atLeastOnce())
       ->method('translate')
