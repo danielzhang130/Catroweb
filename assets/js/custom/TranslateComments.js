@@ -11,9 +11,9 @@ class TranslateComments extends Translation {
     const self = this
     $(document).on('click', '.comment-translation-button', function () {
       const commentId = $(this).attr('id').substring('comment-translation-button-'.length)
-  
+
       $(this).hide()
-  
+
       if (self.isTranslationNotAvailable('#comment-text-translation-' + commentId)) {
         $('#comment-translation-loading-spinner-' + commentId).show()
         self.translateComment(commentId)
@@ -21,7 +21,7 @@ class TranslateComments extends Translation {
         self.openTranslatedComment(commentId)
       }
     })
-  
+
     $(document).on('click', '.remove-comment-translation-button', function () {
       const commentId = $(this).attr('id').substring('remove-comment-translation-button-'.length)
       $(this).hide()

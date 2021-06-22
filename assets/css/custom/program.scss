@@ -223,9 +223,9 @@ table td:nth-child(1) {
 
 .program-name {
   min-width: 30px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .program-name-animation {

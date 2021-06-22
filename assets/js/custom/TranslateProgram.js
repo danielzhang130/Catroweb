@@ -14,7 +14,7 @@ class TranslateProgram extends Translation {
     const self = this
     $(document).on('click', '#program-translation-button', function () {
       $(this).hide()
-  
+
       if (self.isTranslationNotAvailable('#name-translation')) {
         $('#program-translation-loading-spinner').show()
         self.translateProgram()
@@ -22,14 +22,14 @@ class TranslateProgram extends Translation {
         self.openTranslatedProgram()
       }
     })
-  
+
     $(document).on('click', '#remove-program-translation-button', function () {
       $(this).hide()
       $('#program-translation-button').show()
-  
+
       $('#name').removeClass('program-name').addClass('program-name-animation')
       $('#name-translation').removeClass('program-name').addClass('program-name-animation')
-      $('#name-translation').animate({ width: 'toggle' }, 600, 
+      $('#name-translation').animate({ width: 'toggle' }, 600,
         function () {
           $('#name').animate({ width: 'toggle' }, 600,
             function () {
@@ -39,15 +39,15 @@ class TranslateProgram extends Translation {
           )
         }
       )
-      
+
       if (self.hasDescription) {
         $('#description').slideDown()
         $('#description-translation').slideUp()
       }
-  
-      $('#credits-translation-wrapper').slideUp() 
+
+      $('#credits-translation-wrapper').slideUp()
       if (self.hasCredit) {
-        $('#credits').slideDown() 
+        $('#credits').slideDown()
       }
     })
   }
@@ -59,7 +59,7 @@ class TranslateProgram extends Translation {
     if (this.hasDescription) {
       $('#description-translation').text(data.translated_description)
     }
-    
+
     if (this.hasCredit) {
       $('#credits-translation').text(data.translated_credit)
     }
@@ -81,7 +81,7 @@ class TranslateProgram extends Translation {
 
     $('#name').removeClass('program-name').addClass('program-name-animation')
     $('#name-translation').removeClass('program-name').addClass('program-name-animation')
-    $('#name').animate({ width: 'toggle' }, 600, 
+    $('#name').animate({ width: 'toggle' }, 600,
       function () {
         $('#name-translation').animate({ width: 'toggle' }, 600,
           function () {
@@ -91,15 +91,15 @@ class TranslateProgram extends Translation {
         )
       }
     )
-    
+
     if (this.hasDescription) {
       $('#description-translation').slideDown()
       $('#description').slideUp()
     }
 
-    $('#credits-translation-wrapper').slideDown() 
+    $('#credits-translation-wrapper').slideDown()
     if (this.hasCredit) {
-      $('#credits').slideUp() 
+      $('#credits').slideUp()
     }
   }
 
