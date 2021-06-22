@@ -221,6 +221,28 @@ table td:nth-child(1) {
   margin-top: 10px;
 }
 
+.program-name {
+  min-width: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.program-name-animation {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.translate-program-button-wrapper {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.program-translation-credit {
+  font-size: small;
+  color: #808080;
+}
+
 #program-comments {
   #user-comment-wrapper {
     padding-bottom: 15px;
