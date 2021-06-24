@@ -30,14 +30,11 @@ class TranslateProgram extends Translation {
 
       $('#name').removeClass('program-name').addClass('program-name-animation')
       $('#name-translation').removeClass('program-name').addClass('program-name-animation')
-      $('#name-translation').animate({ width: 'toggle' }, 600,
+      $('#name-translation').animate({ width: 'toggle' })
+      $('#name').animate({ width: 'toggle' }, 400,
         function () {
-          $('#name').animate({ width: 'toggle' }, 600,
-            function () {
-              $('#name').removeClass('program-name-animation').addClass('program-name')
-              $('#name-translation').removeClass('program-name-animation').addClass('program-name')
-            }
-          )
+          $('#name').removeClass('program-name-animation').addClass('program-name')
+          $('#name-translation').removeClass('program-name-animation').addClass('program-name')
         }
       )
 
@@ -82,14 +79,11 @@ class TranslateProgram extends Translation {
 
     $('#name').removeClass('program-name').addClass('program-name-animation')
     $('#name-translation').removeClass('program-name').addClass('program-name-animation')
-    $('#name').animate({ width: 'toggle' }, 600,
+    $('#name').animate({ width: 'toggle' })
+    $('#name-translation').animate({ width: 'toggle' }, 400,
       function () {
-        $('#name-translation').animate({ width: 'toggle' }, 600,
-          function () {
-            $('#name').removeClass('program-name-animation').addClass('program-name')
-            $('#name-translation').removeClass('program-name-animation').addClass('program-name')
-          }
-        )
+        $('#name').removeClass('program-name-animation').addClass('program-name')
+        $('#name-translation').removeClass('program-name-animation').addClass('program-name')
       }
     )
 
