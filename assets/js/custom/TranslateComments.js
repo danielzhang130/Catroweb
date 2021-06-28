@@ -9,17 +9,17 @@ class TranslateComments extends Translation {
   }
 
   _initListeners () {
-    const self = this
+    const translateComments = this
     $(document).on('click', '.comment-translation-button', function () {
       const commentId = $(this).attr('id').substring('comment-translation-button-'.length)
 
       $(this).hide()
 
-      if (self.isTranslationNotAvailable('#comment-text-translation-' + commentId)) {
+      if (translateComments.isTranslationNotAvailable('#comment-text-translation-' + commentId)) {
         $('#comment-translation-loading-spinner-' + commentId).show()
-        self.translateComment(commentId)
+        translateComments.translateComment(commentId)
       } else {
-        self.openTranslatedComment(commentId)
+        translateComments.openTranslatedComment(commentId)
       }
     })
 

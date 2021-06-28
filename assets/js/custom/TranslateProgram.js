@@ -12,15 +12,15 @@ class TranslateProgram extends Translation {
   }
 
   _initListeners () {
-    const self = this
+    const translateProgram = this
     $(document).on('click', '#program-translation-button', function () {
       $(this).hide()
 
-      if (self.isTranslationNotAvailable('#name-translation')) {
+      if (translateProgram.isTranslationNotAvailable('#name-translation')) {
         $('#program-translation-loading-spinner').show()
-        self.translateProgram()
+        translateProgram.translateProgram()
       } else {
-        self.openTranslatedProgram()
+        translateProgram.openTranslatedProgram()
       }
     })
 
@@ -28,23 +28,24 @@ class TranslateProgram extends Translation {
       $(this).hide()
       $('#program-translation-button').show()
 
+      const animationTime = 400
       $('#name').removeClass('program-name').addClass('program-name-animation')
       $('#name-translation').removeClass('program-name').addClass('program-name-animation')
       $('#name-translation').animate({ width: 'toggle' })
-      $('#name').animate({ width: 'toggle' }, 400,
+      $('#name').animate({ width: 'toggle' }, animationTime,
         function () {
           $('#name').removeClass('program-name-animation').addClass('program-name')
           $('#name-translation').removeClass('program-name-animation').addClass('program-name')
         }
       )
 
-      if (self.hasDescription) {
+      if (translateProgram.hasDescription) {
         $('#description').slideDown()
         $('#description-translation').slideUp()
       }
 
       $('#credits-translation-wrapper').slideUp()
-      if (self.hasCredit) {
+      if (translateProgram.hasCredit) {
         $('#credits').slideDown()
       }
     })
@@ -77,10 +78,11 @@ class TranslateProgram extends Translation {
     $('#program-translation-loading-spinner').hide()
     $('#remove-program-translation-button').show()
 
+    const animationTime = 400
     $('#name').removeClass('program-name').addClass('program-name-animation')
     $('#name-translation').removeClass('program-name').addClass('program-name-animation')
     $('#name').animate({ width: 'toggle' })
-    $('#name-translation').animate({ width: 'toggle' }, 400,
+    $('#name-translation').animate({ width: 'toggle' }, animationTime,
       function () {
         $('#name').removeClass('program-name-animation').addClass('program-name')
         $('#name-translation').removeClass('program-name-animation').addClass('program-name')

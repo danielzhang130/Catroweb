@@ -55,28 +55,21 @@
         <div id="credits" class="text-break">
             {{ program.credits|nl2br }}
         </div>
-        <div id="credits-translation-wrapper" class="text-break" style="display: none;">
-          <div id="credits-translation" class="text-break"></div>
-          <div id="program-translation-credit-wrapper">
-            <span id="program-translation-before-languages" class="program-translation-credit"></span>
-            <span id="program-translation-first-language" class="program-translation-credit"></span>
-            <span id="program-translation-between-languages" class="program-translation-credit"></span>
-            <span id="program-translation-second-language" class="program-translation-credit"></span>
-            <span id="program-translation-after-languages" class="program-translation-credit"></span>
-          </div>
-        </div>
       {% else %}
         <div id="credits" class="text-break">
           {{ "noCredits"|trans({}, "catroweb") }}
         </div>
-        <div id="credits-translation-wrapper" style="display: none;">
-          <span id="program-translation-before-languages" class="program-translation-credit"></span>
-          <span id="program-translation-first-language" class="program-translation-credit"></span>
-          <span id="program-translation-between-languages" class="program-translation-credit"></span>
-          <span id="program-translation-second-language" class="program-translation-credit"></span>
-          <span id="program-translation-after-languages" class="program-translation-credit"></span>
-        </div>
       {% endif %}
+      <div id="credits-translation-wrapper" style="display: none;">
+        {% if program.credits %}
+          <div id="credits-translation" class="text-break"></div>
+        {% endif %}
+        <span id="program-translation-before-languages" class="translation-credit"></span>
+        <span id="program-translation-first-language" class="translation-credit"></span>
+        <span id="program-translation-between-languages" class="translation-credit"></span>
+        <span id="program-translation-second-language" class="translation-credit"></span>
+        <span id="program-translation-after-languages" class="translation-credit"></span>
+      </div>
     </div>
   </div>
 </div>

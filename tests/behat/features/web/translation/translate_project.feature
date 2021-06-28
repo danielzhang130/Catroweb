@@ -24,6 +24,7 @@ Feature: Project title, description and credits should be translatable via a but
     When I click "#remove-program-translation-button"
     Then the element "#program-translation-button" should be visible
     And the element "#name" should be visible
+    And the "#name" element should contain "project1"
 
   Scenario: Translate button should translate title and description when available
     Given I am on "/app/project/2"
@@ -91,7 +92,7 @@ Feature: Project title, description and credits should be translatable via a but
     Then the element "#remove-program-translation-button" should be visible
     And the element "#name-translation" should be visible
 
-  Scenario: Translation should show translated by line when credits available
+  Scenario: Translation should show translated by line
     Given I am on "/app/project/4"
     And I wait for the page to be loaded
     Then the element "#program-translation-button" should exist
@@ -104,15 +105,13 @@ Feature: Project title, description and credits should be translatable via a but
     And the "#program-translation-second-language" element should contain "English"
     And the "#program-translation-after-languages" element should contain ""
   
-  Scenario: Translation should show translated by line when credits not available
+  Scenario: Translation should not change description and credits when description and credits are not available
     Given I am on "/app/project/1"
     And I wait for the page to be loaded
     Then the element "#program-translation-button" should exist
     When I click "#program-translation-button"
     And I wait for AJAX to finish
-    Then the element "#credits-translation-wrapper" should be visible
-    And the "#program-translation-before-languages" element should contain "Translated by iTranslate from"
-    And the "#program-translation-first-language" element should contain "English"
-    And the "#program-translation-between-languages" element should contain "to"
-    And the "#program-translation-second-language" element should contain "English"
-    And the "#program-translation-after-languages" element should contain ""
+    Then the element "#description" should be visible
+    And the "#description" element should contain "No description available."
+    And the element "#credits" should be visible
+    And the "#credits" element should contain "No notes and credits available."

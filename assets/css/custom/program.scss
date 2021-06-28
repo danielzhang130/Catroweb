@@ -238,11 +238,6 @@ table td:nth-child(1) {
   white-space: nowrap;
 }
 
-.program-translation-credit {
-  font-size: small;
-  color: #808080;
-}
-
 #program-comments {
   #user-comment-wrapper {
     padding-bottom: 15px;
@@ -293,7 +288,7 @@ table td:nth-child(1) {
   @include force-word-break();
 }
 
-.comment-translation-credit {
+.translation-credit {
   font-size: small;
   color: #808080;
 }
