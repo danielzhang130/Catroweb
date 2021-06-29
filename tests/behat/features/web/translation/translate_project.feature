@@ -12,7 +12,7 @@ Feature: Project title, description and credits should be translatable via a but
       | 3  | project3 | Catrobat |               | mycredit |
       | 4  | project4 | Catrobat | mydescription | mycredit |
 
-  Scenario: Translate button should translate title when available
+  Scenario: Translate button should translate only title when description and credits not available
     Given I am on "/app/project/1"
     And I wait for the page to be loaded
     Then the element "#program-translation-button" should exist
@@ -21,6 +21,10 @@ Feature: Project title, description and credits should be translatable via a but
     Then the element "#remove-program-translation-button" should be visible
     And the element "#name-translation" should be visible
     And the "#name-translation" element should contain "translated project1"
+    And the element "#description" should be visible
+    And the "#description" element should contain "No description available."
+    And the element "#credits" should be visible
+    And the "#credits" element should contain "No notes and credits available."
     When I click "#remove-program-translation-button"
     Then the element "#program-translation-button" should be visible
     And the element "#name" should be visible
@@ -42,7 +46,7 @@ Feature: Project title, description and credits should be translatable via a but
     And the element "#name" should be visible
     And the element "#description" should be visible
 
-  Scenario: Translate button should translate title, description, and credit when available
+  Scenario: Translate button should translate title and credit when available
     Given I am on "/app/project/3"
     And I wait for the page to be loaded
     Then the element "#program-translation-button" should exist
@@ -104,14 +108,3 @@ Feature: Project title, description and credits should be translatable via a but
     And the "#program-translation-between-languages" element should contain "to"
     And the "#program-translation-second-language" element should contain "English"
     And the "#program-translation-after-languages" element should contain ""
-  
-  Scenario: Translation should not change description and credits when description and credits are not available
-    Given I am on "/app/project/1"
-    And I wait for the page to be loaded
-    Then the element "#program-translation-button" should exist
-    When I click "#program-translation-button"
-    And I wait for AJAX to finish
-    Then the element "#description" should be visible
-    And the "#description" element should contain "No description available."
-    And the element "#credits" should be visible
-    And the "#credits" element should contain "No notes and credits available."

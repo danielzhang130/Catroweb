@@ -51,19 +51,15 @@
             {% endif %}
           </span>
       </div>
-      {% if program.credits %}
-        <div id="credits" class="text-break">
-            {{ program.credits|nl2br }}
-        </div>
-      {% else %}
-        <div id="credits" class="text-break">
-          {{ "noCredits"|trans({}, "catroweb") }}
-        </div>
-      {% endif %}
-      <div id="credits-translation-wrapper" style="display: none;">
+      <div id="credits" class="text-break">
         {% if program.credits %}
-          <div id="credits-translation" class="text-break"></div>
+          {{ program.credits|nl2br }}
+        {% else %}
+          {{ "noCredits"|trans({}, "catroweb") }}
         {% endif %}
+      </div>
+      <div id="credits-translation-wrapper" style="display: none;">
+        <div id="credits-translation" class="text-break"></div>
         <span id="program-translation-before-languages" class="translation-credit"></span>
         <span id="program-translation-first-language" class="translation-credit"></span>
         <span id="program-translation-between-languages" class="translation-credit"></span>

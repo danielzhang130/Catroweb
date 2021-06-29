@@ -74,17 +74,25 @@ class Translation {
     )
   }
 
-  setTranslationCredit (creditContainers, data) {
-    $(creditContainers.before).text(this.translatedByLineMap.before.replace('%provider%', this.providerMap[data.provider]))
-    $(creditContainers.between).text(this.translatedByLineMap.between.replace('%provider%', this.providerMap[data.provider]))
-    $(creditContainers.after).text(this.translatedByLineMap.after.replace('%provider%', this.providerMap[data.provider]))
+  setTranslationCredit (data, commentId) {
+    let creditSection = '#program'
+    let creditIdentifier = ''
+
+    if (commentId !== null) {
+      creditSection = '#comment'
+      creditIdentifier = '-' + commentId
+    }
+
+    $(creditSection + '-translation-before-languages' + creditIdentifier).text(this.translatedByLineMap.before.replace('%provider%', this.providerMap[data.provider]))
+    $(creditSection + '-translation-between-languages' + creditIdentifier).text(this.translatedByLineMap.between.replace('%provider%', this.providerMap[data.provider]))
+    $(creditSection + '-translation-after-languages' + creditIdentifier).text(this.translatedByLineMap.after.replace('%provider%', this.providerMap[data.provider]))
 
     if (this.isSourceLanguageFirst()) {
-      $(creditContainers.firstLanguage).text(this.displayLanguageMap[data.source_language])
-      $(creditContainers.secondLanguage).text(this.displayLanguageMap[data.target_language])
+      $(creditSection + '-translation-first-language' + creditIdentifier).text(this.displayLanguageMap[data.source_language])
+      $(creditSection + '-translation-second-language' + creditIdentifier).text(this.displayLanguageMap[data.target_language])
     } else {
-      $(creditContainers.firstLanguage).text(this.displayLanguageMap[data.target_language])
-      $(creditContainers.secondLanguage).text(this.displayLanguageMap[data.source_language])
+      $(creditSection + '-translation-first-language' + creditIdentifier).text(this.displayLanguageMap[data.target_language])
+      $(creditSection + '-translation-second-language' + creditIdentifier).text(this.displayLanguageMap[data.source_language])
     }
   }
 }

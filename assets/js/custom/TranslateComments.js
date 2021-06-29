@@ -36,15 +36,7 @@ class TranslateComments extends Translation {
     $('#comment-text-translation-' + commentId).text(data.translation)
     $('#comment-text-translation-' + commentId).attr('lang', data.target_language)
 
-    const translationCreditContainers = {
-      before: '#comment-translation-before-languages-' + commentId,
-      between: '#comment-translation-between-languages-' + commentId,
-      after: '#comment-translation-after-languages-' + commentId,
-      firstLanguage: '#comment-translation-first-language-' + commentId,
-      secondLanguage: '#comment-translation-second-language-' + commentId
-    }
-
-    this.setTranslationCredit(translationCreditContainers, data)
+    this.setTranslationCredit(data, commentId)
   }
 
   openTranslatedComment (commentId) {
