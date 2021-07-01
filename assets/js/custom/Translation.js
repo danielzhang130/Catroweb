@@ -74,25 +74,27 @@ class Translation {
     )
   }
 
-  setTranslationCredit (data, commentId) {
-    let creditSection = '#program'
-    let creditIdentifier = ''
-
-    if (commentId !== null) {
-      creditSection = '#comment'
-      creditIdentifier = '-' + commentId
-    }
-
-    $(creditSection + '-translation-before-languages' + creditIdentifier).text(this.translatedByLineMap.before.replace('%provider%', this.providerMap[data.provider]))
-    $(creditSection + '-translation-between-languages' + creditIdentifier).text(this.translatedByLineMap.between.replace('%provider%', this.providerMap[data.provider]))
-    $(creditSection + '-translation-after-languages' + creditIdentifier).text(this.translatedByLineMap.after.replace('%provider%', this.providerMap[data.provider]))
+  setTranslationCredit (data, byLineElements) {
+    $(byLineElements.before).text(this.translatedByLineMap.before.replace('%provider%', this.providerMap[data.provider]))
+    $(byLineElements.between).text(this.translatedByLineMap.between.replace('%provider%', this.providerMap[data.provider]))
+    $(byLineElements.after).text(this.translatedByLineMap.after.replace('%provider%', this.providerMap[data.provider]))
 
     if (this.isSourceLanguageFirst()) {
-      $(creditSection + '-translation-first-language' + creditIdentifier).text(this.displayLanguageMap[data.source_language])
-      $(creditSection + '-translation-second-language' + creditIdentifier).text(this.displayLanguageMap[data.target_language])
+      $(byLineElements.firstLanguage).text(this.displayLanguageMap[data.source_language])
+      $(byLineElements.secondLanguage).text(this.displayLanguageMap[data.target_language])
     } else {
-      $(creditSection + '-translation-first-language' + creditIdentifier).text(this.displayLanguageMap[data.target_language])
-      $(creditSection + '-translation-second-language' + creditIdentifier).text(this.displayLanguageMap[data.source_language])
+      $(byLineElements.secondLanguage).text(this.displayLanguageMap[data.target_language])
+      $(byLineElements.firstLanguage).text(this.displayLanguageMap[data.source_language])
     }
+  }
+}
+
+class ByLineElementContainer {
+  constructor (beforeElement, betweenElement, afterElement, firstLanguageElement, secondLanguageElement) {
+    this.before = beforeElement
+    this.between = betweenElement
+    this.after = afterElement
+    this.firstLanguage = firstLanguageElement
+    this.secondLanguage = secondLanguageElement
   }
 }

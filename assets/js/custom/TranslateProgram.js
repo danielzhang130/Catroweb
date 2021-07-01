@@ -63,7 +63,15 @@ class TranslateProgram extends Translation {
       $('#credits-translation').text(data.translated_credit)
     }
 
-    this.setTranslationCredit(data, null)
+    const byLineElements = new ByLineElementContainer(
+      '#program-translation-before-languages',
+      '#program-translation-between-languages',
+      '#program-translation-after-languages',
+      '#program-translation-first-language',
+      '#program-translation-second-language',
+    )
+
+    this.setTranslationCredit(data, byLineElements)
   }
 
   openTranslatedProgram () {
