@@ -1,0 +1,17 @@
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+
+{% block list_table %}
+    <div class="col-xs-12 col-md-12 mb-5">
+
+        {% include '@SonataCore/FlashMessage/render.html.twig' %}
+
+        <form action="{{ trimUrl }}">
+            <label for="days">Older than (days):</label><br>
+            <input type="number" id="days" name="days" value="30" min="1"><br>
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+    </div>
+
+    {{ parent() }}
+
+{% endblock %}
