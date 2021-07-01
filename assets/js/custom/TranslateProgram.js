@@ -1,5 +1,6 @@
 /* eslint-env jquery */
 /* global Translation */
+/* global ByLineElementContainer */
 
 // eslint-disable-next-line no-unused-vars
 class TranslateProgram extends Translation {

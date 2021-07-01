@@ -89,6 +89,7 @@ class Translation {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 class ByLineElementContainer {
   constructor (beforeElement, betweenElement, afterElement, firstLanguageElement, secondLanguageElement) {
     this.before = beforeElement
