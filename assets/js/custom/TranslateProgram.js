@@ -69,7 +69,7 @@ class TranslateProgram extends Translation {
       '#program-translation-between-languages',
       '#program-translation-after-languages',
       '#program-translation-first-language',
-      '#program-translation-second-language',
+      '#program-translation-second-language'
     )
 
     this.setTranslationCredit(data, byLineElements)

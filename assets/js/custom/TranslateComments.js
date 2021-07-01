@@ -42,7 +42,7 @@ class TranslateComments extends Translation {
       '#comment-translation-between-languages-' + commentId,
       '#comment-translation-after-languages-' + commentId,
       '#comment-translation-first-language-' + commentId,
-      '#comment-translation-second-language-' + commentId,
+      '#comment-translation-second-language-' + commentId
     )
 
     this.setTranslationCredit(data, byLineElements)
