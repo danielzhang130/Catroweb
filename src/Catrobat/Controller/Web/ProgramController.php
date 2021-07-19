@@ -60,7 +60,6 @@ class ProgramController extends AbstractController
   private EventDispatcherInterface $event_dispatcher;
   private ProgramFileRepository $file_repository;
   private TranslationDelegate $translation_delegate;
-  private ProgramTranslationRepository $translation_repository;
 
   public function __construct(StatisticsService $statistics_service,
                               RemixManager $remix_manager,
@@ -453,15 +452,7 @@ class ProgramController extends AbstractController
       throw $this->createNotFoundException('Unable to find Project entity.');
     }
 
-    $this->translation_repository->addNameTranslation($program, $language, $new_name);
-
-    $extracted_file = $this->extracted_file_repository->loadProgramExtractedFile($program);
-    if ($extracted_file)
-    {
-      $extracted_file->setName($new_name, $language);
-      $this->extracted_file_repository->saveProgramExtractedFile($extracted_file);
-      $this->file_repository->deleteProgramFileIfExists($program->getId());
-    }
+    $this->translation_delegate->addProjectNameCustomTranslation($program, $language, $new_name);
 
     return JsonResponse::create(['statusCode' => Response::HTTP_OK]);
   }
@@ -479,7 +470,7 @@ class ProgramController extends AbstractController
       throw $this->createNotFoundException('Unable to find Project entity.');
     }
 
-    return JsonResponse::create(['name' => $this->translation_repository->getNameTranslation($program, $language)]);
+    return JsonResponse::create(['name' => $this->translation_delegate->getProjectNameCustomTranslation($program, $language)]);
   }
 
   /**

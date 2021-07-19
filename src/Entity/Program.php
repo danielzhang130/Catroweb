@@ -345,7 +345,7 @@ class Program
   private bool $snapshots_enabled = false;
 
   /**
-   * @ORM\OneToMany(targetEntity="App\Entity\ProgramTranslation", mappedBy="program", cascade={"remove"})
+   * @ORM\OneToMany(targetEntity="App\Entity\Translation\ProjectCustomTranslation", mappedBy="program", cascade={"remove"})
    */
   private Collection $translations;
 
